@@ -18,7 +18,7 @@ from flask import request
 from sqlalchemy import and_
 
 # For the session
-app.secret_key = os.environ.get['APP_SESSION_KEY']
+app.secret_key = os.environ.get('APP_SESSION_KEY')
 
 base_url = 'https://brainstorm-flashcard-app.herokuapp.com'
 
