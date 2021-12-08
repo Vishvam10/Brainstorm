@@ -1,6 +1,7 @@
 import enum
 from operator import add
 import re
+import os
 from flask import Flask, request, redirect, url_for
 from flask import render_template
 from flask import current_app as app
@@ -11,6 +12,8 @@ import re
 import statistics as st
 import datetime
 
+from sqlalchemy.sql import base
+
 from application.database import db
 from application.models import Card, User
 from application.models import Deck
@@ -19,7 +22,9 @@ from flask import request
 from sqlalchemy import and_
 
 # For the session
-app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+app.secret_key = os.environ.get['APP_SESSION_KEY']
+
+base_url = 'https://brainstorm-flashcard-app.herokuapp.com/api/'
 
 # ~ SIGN UP, LOG IN, etc
 
@@ -40,8 +45,9 @@ def create_account():
         if valid_username is not None:
             # pwd = "{}".format(password).encode("utf-8")
             # encoded = base64.b64encode(pwd)
-            r = requests.post("http://127.0.0.1:4000/api/user/",
-                              data={'username': username, 'password': password})
+            url = base_url + 'user'
+            r = requests.post(
+                url, data={'username': username, 'password': password})
             return redirect(url_for('login'))
         else:
             createAccountURL = url_for('create_account')
@@ -80,13 +86,13 @@ def dashboard():
     if 'username' in session:
         user_id = session['user_id']
         username = session['username']
-        decks = requests.get(
-            "http://127.0.0.1:4000/api/deck/", {"user_id": user_id}).json()
+        url = base_url + '/deck'
+        decks = requests.get(url, {"user_id": user_id}).json()
         reviews = []
         if len(decks) > 1:
             for deck in decks:
                 deck_id = deck["deck_id"]
-                url = "http://127.0.0.1:4000/api/review/{}".format(deck_id)
+                url = base_url + "/review/{}".format(deck_id)
                 review = requests.get(url).json()
                 reviews.append(review)
 
@@ -116,7 +122,7 @@ def dashboard():
         else:
             for deck in decks:
                 deck_id = deck["deck_id"]
-                url = "http://127.0.0.1:4000/api/review/{}".format(deck_id)
+                url = base_url + "/review/{}".format(deck_id)
                 review = requests.get(url).json()
                 reviews.append(review)
             return render_template("dashboard.html", decks=decks, reviews=reviews, username=username, avgScore="-", stdevScore="-", easiestDeck="-", hardestDeck="-", revisionRequired="-")
@@ -167,18 +173,18 @@ def add_deck():
                         return render_template("error.html", errorMessage="One or more answers are empty. Please fill out all the answers. That way you can check them while playing. Just restrain yourself from cheating 😉", goBack=addDeckURL)
 
                 # - Add the deck
-                r = requests.post("http://127.0.0.1:4000/api/deck/",
-                                  data={'deck_name': deck_name, 'user_id': user_id})
+                url = base_url + 'deck/'
+                r = requests.post(
+                    url, data={'deck_name': deck_name, 'user_id': user_id})
 
                 # - Add the cards. For this we need the deck_id.
                 deck = Deck.query.filter(
                     and_(Deck.deck_name == deck_name), (Deck.user_id == user_id)).first()
+                url = base_url + 'card/'
+                r = requests.post(
+                    url, data={'questions': questions, 'answers': answers, 'deck_id': deck.deck_id})
 
-                r = requests.post("http://127.0.0.1:4000/api/card/",
-                                  data={'questions': questions, 'answers': answers, 'deck_id': deck.deck_id})
-
-                url = "http://127.0.0.1:4000/api/review/{}".format(
-                    deck.deck_id)
+                url = base_url + "review/{}".format(deck.deck_id)
                 x = datetime.datetime.now()
                 date = x.strftime("%x")
                 results = {
@@ -214,8 +220,9 @@ def edit_deck():
             Deck.deck_id == deck_id).first()
         if deck.deck_name != new_name:
             if len(new_name) > 1 and len(new_name) <= 20:
-                r = requests.put("http://127.0.0.1:4000/api/deck/",
-                                 data={'deck_id': deck_id, 'deck_name': new_name})
+                url = base_url + "deck/"
+                r = requests.put(
+                    url, data={'deck_id': deck_id, 'deck_name': new_name})
                 return redirect(url_for("dashboard"))
             else:
                 dashboardURL = url_for("dashboard")
@@ -252,11 +259,11 @@ def delete():
                 db.session.commit()
 
                 # 2. Delete the review
-                url = "http://127.0.0.1:4000/api/review/{}".format(deck_id)
+                url = base_url + "review/{}".format(deck_id)
                 r = requests.delete(url)
 
                 # 3. Delete the deck
-                url = "http://127.0.0.1:4000/api/deck/{}".format(deck_id)
+                url = base_url + "deck/{}".format(deck_id)
                 r = requests.delete(url)
 
                 return redirect(url_for('dashboard'))
@@ -281,7 +288,7 @@ def delete():
 def edit_cards():
     if request.method == "GET":
         deck_id = request.args.get("deck_id")
-        url = "http://127.0.0.1:4000/api/card/{}".format(deck_id)
+        url = base_url + "card/{}".format(deck_id)
         cards = requests.get(url).json()
         add_new_card = request.args.get('addCard')
         if add_new_card:
@@ -295,7 +302,8 @@ def edit_cards():
         if add_new_card:
             new_question = request.form['q_edited']
             new_answer = request.form['a_edited']
-            r = requests.post("http://127.0.0.1:4000/api/card/", data={
+            url = base_url + "card/"
+            r = requests.post(url, data={
                               'questions': new_question, 'answers': new_answer, 'deck_id': deck_id})
             return redirect(url_for('edit_cards', deck_id=deck_id, addCard=True))
         else:
@@ -307,7 +315,8 @@ def edit_cards():
             old_question = card.question
             old_answer = card.answer
             if((old_answer != new_answer) or (old_question != new_question)):
-                r = requests.put("http://127.0.0.1:4000/api/card/", data={
+                url = base_url + "card/"
+                r = requests.put(url, data={
                                  'card_id': card_id, 'question': new_question, 'answer': new_answer})
                 return redirect(url_for('edit_cards', deck_id=deck_id))
             else:
