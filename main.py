@@ -6,6 +6,7 @@ from application.api import CardAPI, DeckAPI, ReviewAPI
 from application.config import LocalDevelopmentConfig
 from application.database import db
 from flask_cors import CORS
+from waitress import serve
 
 app = None
 api = None
@@ -37,4 +38,5 @@ if __name__ == "__main__":
                      "/api/card/<int:deck_id>", "/api/card/<int:card_id>")
     api.add_resource(ReviewAPI, "/api/review/<int:deck_id>")
     port = int(os.environ.get('PORT', 33507))
-    app.run(port=port)
+
+    serve(app, host="0.0.0.0", port=port)
