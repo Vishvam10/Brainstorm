@@ -36,5 +36,5 @@ if __name__ == "__main__":
     api.add_resource(CardAPI, "/api/card/",
                      "/api/card/<int:deck_id>", "/api/card/<int:card_id>")
     api.add_resource(ReviewAPI, "/api/review/<int:deck_id>")
-
-    app.run(port=4000)
+    port = int(os.environ.get('PORT', 33507))
+    app.run(port=port)
