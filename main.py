@@ -8,27 +8,17 @@ from application.database import db
 from flask_cors import CORS
 from waitress import serve
 
-app = None
-api = None
-
-
-def create_app():
-    app = Flask(__name__, template_folder="templates")
-    if(os.getenv('ENV', "dev") == "prod"):
-        raise Exception("Currently no prod. config. is setup")
-    else:
-        print("Starting local dev.")
-    app.config.from_object(LocalDevelopmentConfig)
-    db.init_app(app)
-    api = Api(app)
-    CORS(app)
-    app.app_context().push()
-    return app, api
-
-
-app, api = create_app()
 
 if __name__ == "__main__":
+    my_app = None
+    api = None
+
+    my_app = Flask(__name__, template_folder="templates")
+    my_app.config.from_object(LocalDevelopmentConfig)
+    db.init_app(my_app)
+    api = Api(my_app)
+    CORS(my_app)
+    my_app.app_context().push()
 
     from application.controllers import *
     from application.api import UserAPI
@@ -39,4 +29,4 @@ if __name__ == "__main__":
     api.add_resource(ReviewAPI, "/api/review/<int:deck_id>")
     port = int(os.environ.get('PORT', 33507))
 
-    serve(app, host="0.0.0.0", port=port)
+    serve(my_app, host="0.0.0.0", port=port)
