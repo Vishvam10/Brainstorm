@@ -3,6 +3,8 @@ const deckSelection = document.getElementById("deckSelection");
 const deckOptions = document.getElementById("deckOptions");
 const deckIDs = document.querySelectorAll(".deck-card");
 
+const base_url = "https://brainstorm-flashcard-app.herokuapp.com";
+
 //_ CHARTS
 
 var results = {
@@ -18,7 +20,7 @@ var r = [];
 var selectedDeck = -1;
 
 const getReview = async (deck_id) => {
-  const url = `http://127.0.0.1:4000/api/review/${deck_id}`;
+  const url = `${base_url}/api/review/${deck_id}`;
   const response = await fetch(url, {
     method: "GET",
     mode: "cors",

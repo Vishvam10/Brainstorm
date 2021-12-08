@@ -7,9 +7,10 @@ const addMoreQA = document.getElementById("addMoreQA");
 const QACount = document.getElementById("QACount");
 
 let questionCounter = 2;
+const base_url = "https://brainstorm-flashcard-app.herokuapp.com";
 
 const deleteCard = async (card_id) => {
-  const url = `http://127.0.0.1:4000/api/card`;
+  const url = `${base_url}/api/card`;
   const response = await fetch(url, {
     method: "DELETE",
     mode: "cors",

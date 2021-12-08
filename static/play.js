@@ -8,6 +8,8 @@ const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const deck_id = urlParams.get("deck_id");
 
+const base_url = "https://brainstorm-flashcard-app.herokuapp.com";
+
 var counter = 0;
 var ansButtonClicked = false;
 var number_of_questions = 0;
@@ -24,7 +26,7 @@ var results = {
 };
 
 const getCards = async (deck_id) => {
-  const url = `http://127.0.0.1:4000/api/card/${deck_id}`;
+  const url = `${base_url}/api/card/${deck_id}`;
   const response = await fetch(url, {
     method: "GET",
     mode: "cors",
@@ -39,7 +41,7 @@ const getCards = async (deck_id) => {
 };
 
 const checkReview = async (deck_id) => {
-  const url = `http://127.0.0.1:4000/api/review/${deck_id}`;
+  const url = `${base_url}/api/review/${deck_id}`;
   const response = await fetch(url, {
     method: "GET",
     mode: "cors",
@@ -55,7 +57,7 @@ const checkReview = async (deck_id) => {
 
 const postReview = async (deck_id) => {
   results["last_reviewed"] = new Date().toLocaleString();
-  const url = `http://127.0.0.1:4000/api/review/${deck_id}`;
+  const url = `${base_url}/api/review/${deck_id}`;
   const response = await fetch(url, {
     method: "POST",
     mode: "cors",
@@ -70,7 +72,7 @@ const postReview = async (deck_id) => {
 
 const updateReview = async (deck_id) => {
   results["last_reviewed"] = new Date().toLocaleString();
-  const url = `http://127.0.0.1:4000/api/review/${deck_id}`;
+  const url = `${base_url}/api/review/${deck_id}`;
   const response = await fetch(url, {
     method: "PUT",
     mode: "cors",
