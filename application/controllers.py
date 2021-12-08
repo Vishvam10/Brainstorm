@@ -1,6 +1,3 @@
-import enum
-from operator import add
-import re
 import os
 from flask import Flask, request, redirect, url_for
 from flask import render_template
@@ -12,7 +9,6 @@ import re
 import statistics as st
 import datetime
 
-from sqlalchemy.sql import base
 
 from application.database import db
 from application.models import Card, User
