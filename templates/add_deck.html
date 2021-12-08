@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+{% block title %}Add Deck{% endblock %}
+{% block content %}
+    <div class="bg">
+        <div class="add-deck">
+            <div class="d-flex flex-row justify-content-between mb-5" style="height: 3.2rem;">
+                <h1 class="fw-bold mb-5">Add Deck</h1>
+                <a href="/dashboard" class="btn btn-primary btn-lg">Go to dashboard</a>
+            </div>
+            <div class="input-group input-group-sm mb-3 d-flex flex-column justify-content-center" style="margin: 0rem 0rem 0rem -1rem">
+                <form method="post">
+                    <div class="row">
+                        <div class="col ms-4">
+                            <h3 class="fw-bold mb-5 mt-5">Deck Name</h4>
+                            <label for="deck_name" class="mb-3">Deck Name</label>
+                            <input type="text" name="deck_name" id="deck_name" class="form-control form-control-lg">
+                        </div>
+                    </div>
+                    <h3 class="fw-bold mb-5 mt-5" style="
+                        transform: translateX(1rem)">Question and Answers</h3>
+                    <div id="inputContainer">
+                        <div class="row">
+                            <div class="col ms-4">
+                                <label for="q1" class="mb-3">Question 1</label>
+                                <input type="text" name="q1" class="form-control form-control-lg" id="q1">
+                            </div>
+                            <div class="col">
+                                <label for="a1" class="mb-3">Answer 1</label>
+                                <input type="text" name="a1" class="form-control form-control-lg" id="a1">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col ms-4">
+                                <label for="q2" class="mb-3">Question 2</label>
+                                <input type="text" name="q2" class="form-control form-control-lg" id="q2">
+                            </div>
+                            <div class="col">
+                                <label for="a2" class="mb-3">Answer 2</label>
+                                <input type="text" name="a2" class="form-control form-control-lg" id="a2">
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-outline-primary" id="addMoreQA">Add More QAs</button>
+                    <input type="hidden" value="2" id="QACount" name="QACount">
+                    <input type="submit" name="submit" class="form-control form-control-lg btn btn-primary mt-5" style="width: 99%;
+                    margin: 1rem 1rem 1rem 1rem;" value="Add Them All">   
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
+    <script type="module" src="../static/cardOperations.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+{% endblock %}

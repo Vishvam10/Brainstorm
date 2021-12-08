@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% block title %}Edit Deck{% endblock %}
+{% block content %}
+    <div class="bg">
+        <div class="edit_deck">
+            <div class="details ">
+                <h1 class="fw-bold" style="position: relative; top: 1rem; left: 40%;">Edit Deck</h1>
+                <a href="/dashboard" class="link-primary d-flex justify-content-center" style="margin: 2rem 3rem 2rem 0rem">Go Back To Dashboard</a>
+            </div>
+            <div class="row d-flex">
+                <div class="col d-flex flex-column justify-content-center align-items-center">
+                    <h4 style="margin: 4rem 6rem 3rem 0rem"><span class="fw-bold">Existing Name :</span> {{deck.deck_name}}</h4>
+                </div>
+            </div>
+            <div class="input-group input-group-sm mb-3 d-flex justify-content-center">
+                <div class="row">
+                    <form method="post" class="edit">
+                        <div class="col-12">
+                            <input type="text" name="deck_name" class="form-control form-control-lg">
+                            <label for="changeDeckName" class="btn btn-primary btn-lg" style="margin: 2rem 0rem 0rem 0rem; height: 4rem; width: 30rem; display: flex; align-items: center; justify-content: center;">Change Deck Name</label>
+                            <input type="submit" name="submit" class="hide" id="changeDeckName">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex flex-column justify-content-center align-items-center" style="margin: 0rem 13rem 0rem 0rem">
+                    <h4 style="margin: 2rem 1rem 0rem 0rem">Want to edit the cards ?</h4>
+                    <a href="/deck-management/cards?deck_id={{deck.deck_id}}" class="link-primary" style="margin: 0.4rem 10rem 2rem 0rem">Click here</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

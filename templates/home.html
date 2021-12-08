@@ -1,0 +1,106 @@
+{% extends "layout.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+    <div class="home">
+        <nav>
+            <img src="/static/images/logo-light.png" alt="Brainstorm Logo" class="logo" style="position: absolute; left: 3%;">
+            <a href="/login" style="color: white; position: absolute; right: 24rem;">Login</a>
+            <a href="/create-account" style="color: white; position: absolute; right: 8rem;">Sign Up</a>
+        </nav>
+        <div class="row">
+            <section class="p-header">
+                <!-- <h4 class="header-text">Welcome to</h4> -->
+                <h1 class="heading create">Create a Deck,</h1>
+                <h1 class="heading playAndReview">Play and</h1>
+                <h1 class="heading remember">Remember Stuff</h1>
+                <div class="row" style="margin: 8rem 0rem 2rem 0rem">
+                    <div class="col-6">
+                        <a href="/create-account" class="customButton signUpButton">Sign Up</a>
+                    </div>
+                    <div class="col-6">
+                        <a href="/login" class="customButton loginButton">Login</a>
+                    </div>
+                </div>
+                <p class="header-details">Brainstorm is a flashcard app that will boost your memory and make you remember important things quickly. </p>
+            </section>
+        </div>
+        <div class="row">
+            <section class="features">
+                <div class="row">
+                    <h1 style="font-weight: bold; font-size: 8rem; margin: 0rem 0rem 4rem 36rem;">Features</h1>
+                </div>
+                <div class="row features-row" style="background: linear-gradient(to right, rgb(79, 172, 254), rgb(0, 242, 254));">
+                    <div class="col-8">
+                        <img src="/static/images/create-deck.png" alt="Create Deck" style="width: 50rem; height: 40rem; border-radius: 2rem;">
+                    </div>
+                    <div class="col-4">
+                        <div style="margin: 0rem 0rem 0rem -5rem;">
+                            <h2 class="features-heading">Create a Deck</h2>
+                            <p class="features-details">With just one click of button, you can create a custom deck !
+                            <p class="features-details">This can have a custom name and can hold unlimited questions<p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row features-row" style="background: linear-gradient(to right, rgb(9, 150, 206), rgb(56, 249, 215));">
+                    <div class="col-4">
+                        <div style="width: 20rem;">
+                            <h2 class="features-heading">Play</h2>
+                            <p class="features-details">In every turn, you get a random flashcard from the deck. Try to recollect the correct answers ! </p>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <img src="/static/images/play.png" alt="Play" style="width: 40rem; height: 40rem; border-radius: 2rem; margin: 0rem 0rem 0rem 28rem;">
+                    </div>
+                </div>
+                <div class="row features-row" style="background: linear-gradient(to right, rgb(42, 245, 152), rgb(13, 173, 101));">
+                    <div class="col-8">
+                        <img src="/static/images/performance1.png" alt="Performance" style="width: 28rem; height: 40rem; border-radius: 2rem;">
+                    </div>
+                    <div class="col-4">
+                        <div style="width: 20rem;">
+                            <h2 class="features-heading" style="margin: 0rem 0rem 1rem -6rem;">Performance Analysis</h2>
+                            <p class="features-details" style="margin: 2rem 1rem 1rem -5.6rem;">Get a report of your overall scores. This includes average and the standard deviation of it. You also get a recommendation for revising certain decks.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row features-row" style="background: linear-gradient(to right, rgb(15, 216, 80), rgb(249, 240, 71)); ">
+                    <div class="col-4">
+                        <div style="width: 20rem; margin:-1.6rem 0rem 0rem 6rem">
+                            <h2 class="features-heading" style="margin: 0rem 0rem 1rem -6rem;">Deck-Wise Analysis</h2>
+                            <p class="features-details" style="margin: 2rem 1rem 1rem -5.6rem;">Get a graphical view of your deck-wise perfomance and focus on improving on the harder decks</p>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <img src="/static/images/performance2.png" alt="Deck Wise Analysis" style="width: 64rem; height: 40rem; border-radius: 2rem; margin: 0rem 0rem 0rem 3rem;">
+                    </div>
+                </div>
+                <div class="row features-row" style="background: linear-gradient(to right, rgb(246, 211, 101), rgb(253, 160, 133));">
+                    <div class="col-8">
+                        <img src="/static/images/edit-deck.png" alt="Edit Deck" style="width: 50rem; height: 30rem; border-radius: 2rem;">
+                    </div>
+                    <div class="col-4">
+                        <div style="width: 20rem; margin: -2rem 0rem 0rem 0rem;">
+                            <h2 class="features-heading" style="margin: 0rem 0rem 2rem -7rem; transform: translateY(0.3rem);">Deck Management</h2>
+                            <p class="features-details" style="margin: 1rem 1rem 1rem -6.6rem;">You have full freedom ! You can create, update and delete cards and decks as and when you require.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div class="row">
+            <section class="try-now">
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <h1 class="heading create">Try Now !</h1>
+                    <h2 class="heading dim">It is free after all</h1>
+                    <h4 class="heading dim2">Yep, you read it right. It is free. Hop In !</h1>
+                    <a href="/create-account" class="customButton signUpButton" style="margin: 4rem 0rem 16rem 0rem;">Sign Up</a>
+                </div>
+                <!-- <h4 class="header-text">Welcome to</h4> -->
+            </section>
+        </div>
+        {% block footer %}{% endblock %}
+        <div id="home-footer">
+            Developed with ❤ by <span class="fw-bold" style="margin: 1rem 0rem 1rem 0.6rem;">Vishvam S</span>
+        </div>
+    </div>
+{% endblock %}

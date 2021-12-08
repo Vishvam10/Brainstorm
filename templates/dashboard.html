@@ -1,0 +1,113 @@
+{% extends "layout.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+    <div class="bg">
+        <div class="dashboard">
+            <div class="d-flex flex-row justify-content-between sticky-top mb-5" id="head">
+                <h1 class="fw-bold">{{username}}'s Dashboard</h1>
+                <a href="/logout" class="btn btn-primary btn-lg mt-1" style="height: 3.4rem; border-radius: 1rem;">Logout</a>
+            </div>            
+            <h2 class="mt-4 mb-4 fw-bold">Decks</h2>
+            <div class="mt-5 d-flex flex-row align-items-center">
+                <div style="height: 30rem;">
+                    <div class="deck-card d-flex justify-content-center align-items-center">
+                        <a href="/deck-management/add">
+                            <ion-icon name="add-outline"></ion-icon>
+                        </a>
+                    </div>
+                </div>
+                <div class="deck-container">
+                    {% for deck in decks %}
+                        <div class="deck-card" data-ID="{{deck.deck_id}}">
+                            <div class="row">
+                                <div class="col-8">
+                                    <h4 class="fw-bold text-secondary">{{deck.deck_name}}</h4>
+                                </div>
+                                <div class="col-4">
+                                    <div class="icons">
+                                        <a href="/deck-management/edit?deck_id={{deck.deck_id}}" style="font-size: 2rem;"">
+                                            <ion-icon name="create-outline" aria-label="Edit"></ion-icon>
+                                        </a>
+                                        <form action="delete">
+                                            <input type="hidden" name="name" value="value">
+                                            <a href="/deck-management/delete?deck_id={{deck.deck_id}}&&deleteCards=True" style="font-size: 2rem;" onclick="this.parentNode.submit()">
+                                                <ion-icon name="trash-outline"></ion-icon>
+                                            </a>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div style="display: flex; flex-direction: column; justify-content: left; color: rgb(165, 165, 165);">
+                                    <div class="col-9">
+                                        <p class="fs-5 mb-1 mt-1"><span class="fw-bold">Score :</span> {{reviews[loop.index-1]['score']}}</p> 
+                                        <p class="fs-5 mb-1 mt-1"><span class="fw-bold">Last Reviewed :</span> {{reviews[loop.index-1]['last_reviewed']}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <a href="/play?deck_id={{deck.deck_id}}" id="playButton" class="d-flex flex-row justify-content-center align-items-center">Play</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <h2 class="mb-4 mt-4 fw-bold">Performance : </h2>
+            {% if avgScore == "-" %} 
+                <h4 class="fs-5">( Please have atleast 2 decks to get performance metrics )</h4>
+            {% endif %}
+            <div class="mt-5">
+                <div class="row">
+                    <div class="col-4 d-flex flex-column">
+                        <div>
+                            <h3 class="fs-3 mt-2 mb-4">Overall Score Analysis</h3>
+                            <h4 class="fs-4 mt-3" style="color: grey;">Average Score : {{avgScore}}</h4>
+                            <h4 class="fs-4 mt-3" style="color: grey;">Standard Deviation of Score : {{stdevScore}}</h4>
+                        </div>
+                        <div>
+                            <h3 class="fs-3 mt-5 mb-4">Overall Deck Analysis</h3>
+                            <h4 class="fs-4 mt-3" style="color: grey;">Hardest Deck : {{hardestDeck}}</h4>
+                            <h4 class="fs-4 mt-3" style="color: grey;">Easiest Deck : {{easiestDeck}}</h4>
+                        </div>
+                        <div style="width: 88%;">
+                            <h3 class="fs-3 mt-5 mb-5">Review Required For Decks</h3>
+                            <div class="row">
+                                {% if revisionRequired %}     
+                                    {% for r in revisionRequired %}
+                                        <div class="col" style="margin: 1rem 0rem 1rem 1rem;">
+                                            <h4 class="reviewChip">{{r}}</h4>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="col" style="margin: 1rem 0rem 1rem 1rem;">
+                                        <h4 class="reviewChip" style="border: 1px solid #00B74A; color: #00B74A; background-color: transparent;">Good job ! None of the decks require a review</h4>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <select class="form-select mb-5" aria-label="Default select example" style="height: 4rem;border-radius: 1rem; font-size: 1.6rem;" id="deckSelection">
+                            <option selected value="-1">Choose Deck</option>
+                            {% for deck in decks %}
+                                <option value="{{deck.deck_id}}" id="deckOptions">{{deck.deck_name}}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="chart" style="width: 60rem;">
+                            <canvas id="myChart"></canvas>             
+                        </div>
+                    </div>
+           
+                </div>
+               
+            </div>
+        </div>
+    </div>
+    {% block scripts %}
+        <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.0/chart.min.js"></script>
+        <script type="module" src="../static/chart.js"></script>
+    {% endblock %}
+{% endblock %}
+

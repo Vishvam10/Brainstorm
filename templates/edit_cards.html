@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% block title %}Edit Cards{% endblock %}
+{% block content %}
+    <div class="bg">
+        <div class="edit_cards">
+            <div class="details sticky-top">
+                <h1 class="fw-bold" style="position: relative; top: 1rem; left: 41.8%;">Edit Cards</h1>
+                <a href="/dashboard" class="link-primary d-flex justify-content-center" style="margin: 2rem 0rem 2rem 0rem">Go Back To Dashboard</a>
+            </div>
+            {% if not add_new_card %}
+                {% for card in cards %}
+                <div class="input-group input-group-sm mb-3 d-flex justify-content-center">
+                    <div class="row">
+                        <form class="edit" method="POST">
+                            <div class="col-8" style="margin: 1rem 2rem 1rem 0rem;">
+                                <input type="text" name="q_edited" value="{{card.question}}" class="form-control form-control-lg">
+                            </div>
+                            <div class="col-4">
+                                <input type="text" name="a_edited" value="{{card.answer}}" class="form-control form-control-lg">
+                            </div>
+                            <div class="col-2">
+                                <label for="{{card.card_id}}" class="btn btn-primary btn-lg" style="margin: 0rem 0rem 0rem 4rem; height: 4rem; width: 6rem; display: flex; align-items: center; justify-content: center;">Edit</label>
+                                <input type="submit" name="submit" class="hide" id="{{card.card_id}}" value="{{card.card_id}}">
+                            </div>
+                            <div class="col-2">
+                                <form action="delete">
+                                    <input type="hidden" name="name" value="value">
+                                    <a href="/deck-management/delete?card_id={{card.card_id}}" class="btn btn-outline-danger btn-lg" style="font-size: 1.6rem;
+                                    height: 4rem; width: 6rem; display: flex; align-items: center; justify-content: center; transform: translateX(3rem);" onclick="this.parentNode.submit()">
+                                        Delete
+                                        <!-- <button class="btn btn-danger btn-lg deleteButton" style="margin: 0rem 0rem 0rem 2rem; height: 4rem; width: 6rem; display: flex; align-items: center; justify-content: center;" value="{{card.card_id}}">Delete</button> -->
+                                    </a>
+                                </form>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                {% endfor %}
+            <a href="/deck-management/cards?deck_id={{deck_id}}&&addCard=True" class="d-flex justify-content-center" style="margin: 3rem 1rem 1rem 0rem;">+ Add New Card</a>
+            {% else %}
+                <button id="addButton" class="btn btn-primary btn-lg" style="position: relative; top:0; left: 44%">Add New Card</button>
+            {% endif %}
+        </div>
+    </div>
+    {% block scripts %}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
+        <script type="module" src="../static/cardOperations.js"></script>
+        <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    {% endblock %}
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block title %}Confirm Deletion{% endblock %}
+{% block content %}
+<div class="bg">
+    <div class="confirm_deletion">
+        <div class="input-group input-group-sm mb-3 d-flex justify-content-center">
+            <form method="post">
+                {% if card_id %}
+                    <label for="confirm" class="mb-4" style="font-size: 1.6rem;">Are you sure you want to delete this card ? Type <b>{{card_id}} </b> to confirm</label>
+                {% endif %}
+                {% if deck %}
+                    <label for="confirm" class="mb-4" style="font-size: 1.6rem;">Are you sure you want to delete this {{deck.deck_name}} ? Type <b>{{deck.deck_name}} </b> to confirm</label>
+                {% endif %}
+                <input type="text" name="confirm_deletion" class="form-control form-control-lg">
+                <input type="submit" name="submit" class="btn btn-outline-danger btn-lg mt-4 mb" style="width: 10rem;" value="Delete">
+            </form>
+            <a href="/dashboard" class="btn btn-primary btn-lg d-flex justify-content-center align-items-center" style="height: 4rem; width: 20rem; font-size: 1.2rem; margin: -3.9rem 0rem 0rem 11rem; border-radius: 0.4rem;">No, go back to dashboard</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
