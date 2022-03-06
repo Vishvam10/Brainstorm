@@ -121,7 +121,7 @@ img {
 }
 
 .playAndReview {
-    background: linear-gradient(to top, rgb(55, 236, 186), rgb(114, 175, 211));
+    background: linear-gradient(90deg, #00e1ff 0%, #001aff 100%);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
